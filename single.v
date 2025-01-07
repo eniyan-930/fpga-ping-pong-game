@@ -116,8 +116,8 @@ end
 			if(ball_x_q>640 && ball_xdelta_q) begin
 					miss=1;
 
-					ball_xdelta_q<=^first_8_bits;
-			ball_ydelta_q<=^last_8_bits;
+					ball_xdelta_d<=^first_8_bits;
+			ball_ydelta_d<=^last_8_bits;
 			end
 			else  begin 
 			miss=0;
