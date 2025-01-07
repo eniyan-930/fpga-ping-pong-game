@@ -142,9 +142,9 @@ assign over=(score>11 ||ball==0);
 always@* begin
 rgb=0;
 if(video_on) begin
- if(bar_on) rgb=9'b000010010000;
-else if(ball_on) rgb=9'b000000001111;
-else rgb=3'b000000000000;//background color
+	if(bar_on) rgb=12'b000010010000;
+	else if(ball_on) rgb=12'b000000001111;
+else rgb=12'b000000000000;//background color
 end
 end
 endmodule
