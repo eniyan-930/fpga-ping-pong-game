@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module start(input up1,down1,enter,reset,clk,output [11:0] rgb_start,output start_on,multi,single,hsync,vsync);
+module start(input up1,down1,enter,reset,clk,video_on,input [9:0]x,y,output [11:0] rgb_start,output start_on,multi,single);
 parameter player1_y1 = 201;
 parameter player1_y2 = 239;
 parameter player_x1 = 241;
@@ -46,6 +46,7 @@ wire [8:0] col_pong;
 reg [8:0] arrow_next,arrow_reg;
 wire [8:0] arrow_t,arrow_b;
 reg[11:0] rgb_reg,rgb_next;
+assign p_tick = ((y==480) && (x==0));  
 always@(posedge clk)
 begin
 if(reset) arrow_reg<=arrow_y1;
