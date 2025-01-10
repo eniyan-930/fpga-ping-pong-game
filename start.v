@@ -82,7 +82,6 @@ assign arrow_rgb = 12'b110011110111;
 single_text_rom rom1(.clk(clk),.row(row_player1),.col(col_player1),.color_data(player1_rgb));
 multi_rom rom2(.clk(clk),.row(row_player2),.col(col_player2),.color_data(player2_rgb));
 pong_rom rom3(.clk(clk),.row(row_pong),.col(col_pong),.color_data(pong_rgb));
-vga_controller vga(.clk_100MHz(clk),.reset(reset),.p_tick(p_tick),.hsync(hsync),.vsync(vsync),.video_on(video_on),.x(x),.y(y));
 assign start_on = arrow_on | player1_on | player2_on|pong_on;
 always@(*)
 begin
