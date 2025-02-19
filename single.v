@@ -27,7 +27,7 @@ module single_fsm(
     input down1,input [9:0] pixel_x,pixel_y,
     output reg[11:0] rgb,
     output miss,
-    output  hit
+    output  hit,single_on
     );
     localparam bar_XL = 620, // left bar player
                bar_XR = 625, // right bar player
@@ -36,7 +36,7 @@ module single_fsm(
                bar_LENGTH = 80, // bar length
                bar_V = 8, // bar velocity
                ball_DIAM = 15, // ball diameter minus one
-               ball_V = 1; // ball velocity
+               ball_V = 4; // ball velocity
  
                
     wire bar_on,wall_on,ball_on;
@@ -52,8 +52,20 @@ module single_fsm(
     reg[2:0] state_next;
     wire [7:0] first_8_bits;
     wire [7:0] last_8_bits;
-    
+    reg next_hit,next_miss;
+    reg state_hit,state_miss;
 //transition logic
+always@(*) begin
+next_hit = 1'b0;
+next_miss = 1'b0;
+if((bar_XL <= (ball_x_q + ball_DIAM) && (ball_x_q + ball_DIAM) <= bar_XR && bar_top_q <= (ball_y_q + ball_DIAM) && ball_y_q <= (bar_top_q + bar_LENGTH)))
+next_hit = 1'b1; 
+if((ball_x_q + ball_DIAM) ==635)
+next_miss = 1'b1;
+end
+assign hit = next_hit;
+assign miss = next_miss;
+
  always @(*) begin
         //Default values to avoid latches
         bar_top_d = bar_top_q;
@@ -108,9 +120,6 @@ module single_fsm(
             end
         end
     end    
-    assign hit=((bar_XL <= (ball_x_q + ball_DIAM) && (ball_x_q + ball_DIAM) <= bar_XR && 
-                 bar_top_q <= (ball_y_q + ball_DIAM) && ball_y_q <= (bar_top_q + bar_LENGTH)));
-    assign miss=((ball_x_q + ball_DIAM) ==635);
     assign graph_on = {bar_on, ball_on};
     assign first_8_bits = rng[7:0];
     assign last_8_bits = rng[15:8];
@@ -128,5 +137,3 @@ module single_fsm(
             else if (ball_on) rgb = 12'b0000_0000_1111;
             else rgb = 12'b0000_0000_0000; // Background color
         end     
-    end 
-endmodule
